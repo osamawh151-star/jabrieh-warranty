@@ -1,1 +1,15 @@
 
+        function handleLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('loginUser').value.trim();
+            const p = document.getElementById('loginPass').value.trim();
+
+            // تثبيت اسم المستخدم وكلمة المرور مباشرة لضمان عدم حدوث أي خطأ
+            if (u === 'jabrieh' && p === '1234') {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainApp').classList.remove('hidden');
+                initCanvas();
+            } else {
+                alert('اسم المستخدم أو الرقم السري خطأ! استخدم اسم المستخدم: jabrieh والرقم السري: 1234');
+            }
+        }
