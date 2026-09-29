@@ -47,9 +47,33 @@ button,input{font:inherit}.hidden{display:none!important}
 .result{padding:12px 4px;border-bottom:1px solid #ddd}.result button{border:0;background:#252c39;color:#fff;border-radius:6px;padding:6px 14px;margin-top:7px;cursor:pointer}
 @media(max-width:850px){.certificate{min-width:1050px;transform-origin:top right}.wrap{overflow:auto}.toolbar{margin:10px}.brand-ar{right:35px}.fields{column-gap:30px}}
 @media print{body{background:#fff}.toolbar,.action,.modal{display:none!important}.wrap{max-width:none;padding:0}.certificate{box-shadow:none;min-height:190mm;height:190mm;width:287mm;padding-bottom:25mm;overflow:hidden}.header{height:39mm}.form-area{padding:11mm 12mm 0}.footer{min-height:25mm;padding:2mm 10mm}.terms{min-height:43mm;margin-top:4mm}.sign-row{margin-top:2mm}.signature canvas{height:14mm}@page{size:A4 landscape;margin:5mm}}
+
+.login-screen{position:fixed;inset:0;z-index:100;background:#272d39;display:grid;place-items:center;padding:20px}
+.login-card{width:min(430px,94vw);background:#fff;border-radius:16px;padding:30px;box-shadow:0 20px 60px #0005;text-align:right}
+.login-card h2{margin:0;font-size:30px}.login-card p{margin:4px 0 20px;color:#666}
+.login-card label{display:block;font-weight:800;margin-top:12px}
+.login-card input{width:100%;padding:11px;border:1px solid #bbb;border-radius:8px;margin-top:5px}
+.login-card button{width:100%;margin-top:20px;padding:11px;border:0;border-radius:8px;background:#d71920;color:#fff;font-weight:900;cursor:pointer}
+#loginMsg{color:#c71920;margin-top:10px;font-weight:700}
 </style>
 </head>
 <body>
+
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <h2>جبرية سنتر</h2>
+    <p>نظام إدارة الكفالات</p>
+    <form id="loginForm">
+      <label id="loginUserLabel">اسم المستخدم</label>
+      <input id="loginUser" type="text" autocomplete="username" required>
+      <label id="loginPassLabel">كلمة المرور</label>
+      <input id="loginPass" type="password" autocomplete="current-password" required>
+      <button id="loginBtn" type="submit">دخول</button>
+      <div id="loginMsg"></div>
+    </form>
+  </div>
+</div>
+<div id="mainApp" class="hidden">
 <div class="toolbar">
   <h1>جبرية سنتر - النظام السحابي</h1>
   <button class="orange" onclick="toggleLanguage()">English</button>
@@ -117,6 +141,7 @@ button,input{font:inherit}.hidden{display:none!important}
  </form>
 </section>
 </div>
+</div>
 
 <div id="searchModal" class="modal hidden"><div class="modalbox">
 <h2>بحث عن كفالة سابقة</h2><input id="searchInput" placeholder="الاسم، رقم الشصي، الهاتف أو رقم الكفالة">
@@ -124,13 +149,20 @@ button,input{font:inherit}.hidden{display:none!important}
 <div id="searchResults"></div></div></div>
 
 <div id="settingsModal" class="modal hidden"><div class="modalbox">
-<h2>الإعدادات</h2><textarea id="termsEditText" rows="8" placeholder="كل شرط في سطر"></textarea>
-<button class="blue" onclick="saveSettings()">حفظ التعديلات</button> <button class="gray" onclick="closeModal('settingsModal')">إغلاق</button>
+<h2 id="settingsHeading">الإعدادات</h2>
+<label id="settingsUserLabel">اسم المستخدم الجديد</label>
+<input id="newUsername" type="text" placeholder="اتركيه فارغاً إذا لم تريدي تغييره">
+<label id="settingsPassLabel">كلمة المرور الجديدة</label>
+<input id="newPassword" type="password" placeholder="اتركيها فارغة إذا لم تريدي تغييرها">
+<label id="settingsTermsLabel">شروط الكفالة - كل شرط في سطر</label>
+<textarea id="termsEditText" rows="8" placeholder="كل شرط في سطر"></textarea>
+<button class="blue" id="saveSettingsBtn" onclick="saveSettings()">حفظ التعديلات</button>
+<button class="gray" id="closeSettingsBtn" onclick="closeModal('settingsModal')">إغلاق</button>
 </div></div>
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-import {getAuth,signOut} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+import {getAuth,signOut,signInWithEmailAndPassword,onAuthStateChanged,updatePassword} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 import {getFirestore,collection,addDoc,getDocs,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
 const firebaseConfig={
@@ -143,6 +175,80 @@ const firebaseConfig={
  measurementId:"G-EW4RK91BW7"
 };
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+
+const LOGIN_EMAIL="osamawh151@gmail.com";
+const USERNAME_KEY="jabriehUsername";
+if(!localStorage.getItem(USERNAME_KEY)) localStorage.setItem(USERNAME_KEY,"osama");
+
+const loginScreen=document.getElementById("loginScreen");
+const mainApp=document.getElementById("mainApp");
+document.getElementById("loginForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const u=document.getElementById("loginUser").value.trim();
+ const pw=document.getElementById("loginPass").value;
+ const saved=(localStorage.getItem(USERNAME_KEY)||"osama").toLowerCase();
+ const msg=document.getElementById("loginMsg");
+ if(u.toLowerCase()!==saved){msg.textContent="اسم المستخدم غير صحيح";return}
+ msg.textContent="جاري تسجيل الدخول...";
+ try{
+   await signInWithEmailAndPassword(auth,LOGIN_EMAIL,pw);
+   msg.textContent="";
+ }catch(err){msg.textContent="اسم المستخدم أو كلمة المرور غير صحيحة";}
+});
+onAuthStateChanged(auth,user=>{
+ if(user){loginScreen.classList.add("hidden");mainApp.classList.remove("hidden")}
+ else{mainApp.classList.add("hidden");loginScreen.classList.remove("hidden")}
+});
+
+let currentLang="ar";
+const arText={
+ title:"جبرية سنتر - النظام السحابي", search:"بحث عن كفالة", settings:"الإعدادات", logout:"خروج", lang:"English",
+ cert:"شهادة ضمان", customer:"اسم الزبون:", date:"تاريخ الشراء:", device:"نوع الجهاز:", seller:"البائع:",
+ serial:"الرقم التسلسلي:", period:"مدة الضمان:", phone:"الهاتف:", exclude:"- الكفالة لا تشمل:",
+ sign:"توقيع الزبون", note:"يعتبر توقيع الزبون موافقته على جميع شروط الضمان المذكورة أعلاه.",
+ clear:"مسح التوقيع وإعادة المحاولة", save:"حفظ الكفالة وطباعتها", searchTitle:"بحث عن كفالة سابقة",
+ searchPH:"الاسم، رقم الشصي، الهاتف أو رقم الكفالة", searchBtn:"بحث", close:"إغلاق",
+ settingsTitle:"الإعدادات", user:"اسم المستخدم الجديد", pass:"كلمة المرور الجديدة",
+ terms:"شروط الكفالة - كل شرط في سطر", saveSettings:"حفظ التعديلات"
+};
+const enText={
+ title:"Jabrieh Center - Cloud System", search:"Search Warranty", settings:"Settings", logout:"Logout", lang:"عربي",
+ cert:"Warranty Certificate", customer:"Customer Name:", date:"Purchase Date:", device:"Device Type:", seller:"Seller:",
+ serial:"Serial Number:", period:"Warranty Period:", phone:"Phone:", exclude:"Warranty does not cover:",
+ sign:"Customer Signature", note:"The customer's signature confirms acceptance of all warranty terms above.",
+ clear:"Clear signature and try again", save:"Save Warranty & Print", searchTitle:"Search Previous Warranty",
+ searchPH:"Name, serial number, phone or warranty number", searchBtn:"Search", close:"Close",
+ settingsTitle:"Settings", user:"New Username", pass:"New Password",
+ terms:"Warranty Terms - one condition per line", saveSettings:"Save Changes"
+};
+function applyLanguage(){
+ const t=currentLang==="ar"?arText:enText;
+ document.documentElement.lang=currentLang;
+ document.documentElement.dir=currentLang==="ar"?"rtl":"ltr";
+ const toolbar=document.querySelector(".toolbar");
+ toolbar.querySelector("h1").textContent=t.title;
+ const btns=toolbar.querySelectorAll("button");
+ btns[0].textContent=t.lang; btns[1].textContent=t.search; btns[2].textContent=t.settings; btns[3].textContent=t.logout;
+ document.querySelector(".title h2").textContent=t.cert;
+ const labels=document.querySelectorAll(".field label");
+ [t.customer,t.date,t.device,t.seller,t.serial,t.period,t.phone].forEach((v,i)=>{if(labels[i])labels[i].textContent=v});
+ document.querySelector(".terms h3").textContent=t.exclude;
+ document.querySelector(".signature b").textContent=t.sign;
+ const note=document.querySelector(".sign-note");
+ note.childNodes[0].nodeValue=t.note;
+ note.querySelector("button").textContent=t.clear;
+ document.querySelector(".action button").textContent=t.save;
+ document.querySelector("#searchModal h2").textContent=t.searchTitle;
+ document.getElementById("searchInput").placeholder=t.searchPH;
+ const sb=document.querySelectorAll("#searchModal .modalbox > button");
+ if(sb[0])sb[0].textContent=t.searchBtn;if(sb[1])sb[1].textContent=t.close;
+ document.getElementById("settingsHeading").textContent=t.settingsTitle;
+ document.getElementById("settingsUserLabel").textContent=t.user;
+ document.getElementById("settingsPassLabel").textContent=t.pass;
+ document.getElementById("settingsTermsLabel").textContent=t.terms;
+ document.getElementById("saveSettingsBtn").textContent=t.saveSettings;
+ document.getElementById("closeSettingsBtn").textContent=t.close;
+}
 
 const $=id=>document.getElementById(id);
 const canvas=$("sigCanvas"),ctx=canvas.getContext("2d"); let drawing=false;
@@ -167,7 +273,15 @@ function printWarranty(x){
  w.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>${esc(x.warrantyId||"Warranty")}</title>
  <style>
  @page{size:A4 landscape;margin:6mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;margin:0;color:#111}.p{width:285mm;height:190mm;position:relative;padding:10mm 12mm 27mm;border-top:5mm solid #34383c}.head{display:flex;justify-content:space-between;align-items:start}.en{direction:ltr;text-align:left}.en b{font-size:27px;color:#d71920}.en small{display:block;font-weight:bold;letter-spacing:2px}.ar{font-size:25px;font-weight:bold}.title{text-align:center;margin-top:-10mm}.title h1{margin:0;font-size:27px}.title strong{color:#d71920;font-size:20px}.no{direction:ltr;text-align:left;margin:2mm 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:3mm 15mm;margin-top:2mm}.f{border-bottom:1px solid #333;padding:2mm;font-size:13px}.f b{float:right;margin-left:5mm}.terms{border:1px solid #333;border-radius:3mm;margin-top:5mm;padding:4mm;display:grid;grid-template-columns:1fr 1fr;gap:8mm;font-size:11px;line-height:1.7}.terms h3{color:#d71920;margin:0}.left{border-right:1px solid #777;padding-right:7mm}.sign{margin-top:3mm;display:grid;grid-template-columns:42% 1fr;gap:10mm;align-items:center}.box{border:1px solid #333;border-radius:2mm;text-align:center;padding:1mm;min-height:20mm}.note{text-align:center;font-size:11px}.foot{position:absolute;left:0;right:0;bottom:0;border-top:2mm solid #34383c;background:#eee;display:grid;grid-template-columns:1fr 3fr;padding:3mm 10mm;font-size:9px;direction:ltr}.branches{display:grid;grid-template-columns:repeat(3,1fr);direction:rtl;text-align:center}.social{line-height:2}
- </style></head><body><div class="p">
+ 
+.login-screen{position:fixed;inset:0;z-index:100;background:#272d39;display:grid;place-items:center;padding:20px}
+.login-card{width:min(430px,94vw);background:#fff;border-radius:16px;padding:30px;box-shadow:0 20px 60px #0005;text-align:right}
+.login-card h2{margin:0;font-size:30px}.login-card p{margin:4px 0 20px;color:#666}
+.login-card label{display:block;font-weight:800;margin-top:12px}
+.login-card input{width:100%;padding:11px;border:1px solid #bbb;border-radius:8px;margin-top:5px}
+.login-card button{width:100%;margin-top:20px;padding:11px;border:0;border-radius:8px;background:#d71920;color:#fff;font-weight:900;cursor:pointer}
+#loginMsg{color:#c71920;margin-top:10px;font-weight:700}
+</style></head><body><div class="p">
  <div class="head"><div class="en"><b>JABRIEH</b><small>ELECTRONIC CENTER</small></div><div class="ar">جبرية سنتر<br><small>للإلكترونيات</small></div></div>
  <div class="title"><h1>شهادة ضمان</h1><strong>WARRANTY</strong></div><div class="no">Original No: ${esc(x.warrantyId||"")}</div>
  <div class="grid">
@@ -194,10 +308,10 @@ window.saveWarranty=async e=>{
 };
 
 window.openSearchModal=()=>$("searchModal").classList.remove("hidden");
-window.openSettingsModal=()=>{$("settingsModal").classList.remove("hidden");$("termsEditText").value=[...$("termsList").querySelectorAll("li")].map(x=>x.textContent).join("\n")};
+window.openSettingsModal=()=>{$("settingsModal").classList.remove("hidden");$("newUsername").value=localStorage.getItem(USERNAME_KEY)||"osama";$("newPassword").value="";$("termsEditText").value=[...$("termsList").querySelectorAll("li")].map(x=>x.textContent).join("\n")};
 window.closeModal=id=>$(id).classList.add("hidden");
 window.logout=async()=>{await signOut(auth);location.reload()};
-window.toggleLanguage=()=>alert("يمكن إضافة النسخة الإنجليزية بعد تثبيت التصميم العربي.");
+window.toggleLanguage=()=>{currentLang=currentLang==="ar"?"en":"ar";applyLanguage()};
 
 let searchCache=[];
 window.searchWarranties=async()=>{
@@ -210,7 +324,20 @@ window.searchWarranties=async()=>{
 };
 window.printSavedWarranty=i=>{const x=searchCache[i];if(x)printWarranty(x)};
 
-window.saveSettings=()=>{const a=$("termsEditText").value.split("\n").map(x=>x.trim()).filter(Boolean);if(a.length){$("termsList").innerHTML=a.map(x=>`<li>${esc(x)}</li>`).join("");localStorage.setItem("jabriehTerms",JSON.stringify(a))}window.closeModal("settingsModal")};
+window.saveSettings=async()=>{
+ const a=$("termsEditText").value.split("\n").map(x=>x.trim()).filter(Boolean);
+ if(a.length){$("termsList").innerHTML=a.map(x=>`<li>${esc(x)}</li>`).join("");localStorage.setItem("jabriehTerms",JSON.stringify(a))}
+ const newU=$("newUsername").value.trim();
+ if(newU)localStorage.setItem(USERNAME_KEY,newU);
+ const newP=$("newPassword").value;
+ if(newP){
+   if(newP.length<6){alert("كلمة المرور يجب أن تكون 6 أحرف على الأقل");return}
+   try{await updatePassword(auth.currentUser,newP)}
+   catch(err){alert("لم يتم تغيير كلمة المرور. قد تحتاجين لتسجيل الدخول من جديد ثم المحاولة.");return}
+ }
+ alert(currentLang==="ar"?"تم حفظ التعديلات":"Changes saved");
+ window.closeModal("settingsModal");
+};
 try{const a=JSON.parse(localStorage.getItem("jabriehTerms")||"null");if(a?.length)$("termsList").innerHTML=a.map(x=>`<li>${esc(x)}</li>`).join("")}catch{}
 </script>
 </body>
