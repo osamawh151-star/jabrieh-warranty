@@ -14,7 +14,7 @@ button,input{font:inherit}.hidden{display:none!important}
 .toolbar h1{font-size:18px;margin:0 auto 0 0}.toolbar button{border:0;border-radius:7px;padding:8px 13px;color:#fff;font-weight:800;cursor:pointer}
 .blue{background:#1677ff}.gray{background:#596273}.red{background:#d92838}.orange{background:#d97706}
 .wrap{max-width:1500px;margin:auto;padding:0 10px 30px}
-.certificate{background:#fff;min-height:930px;position:relative;overflow:hidden;box-shadow:0 3px 20px #0002}
+.certificate{background:#fff;min-height:1120px;position:relative;overflow:visible;box-shadow:0 3px 20px #0002;padding-bottom:155px}
 .header{height:205px;position:relative;border-top:25px solid #34383c}
 .header:before{content:"";position:absolute;left:0;top:0;width:54%;height:115px;border-bottom:7px solid #3c3f42;clip-path:polygon(0 0,78% 0,91% 55%,100% 55%,100% 62%,89% 62%,76% 7%,0 7%)}
 .header:after{content:"";position:absolute;right:0;top:28px;width:46%;height:120px;background:linear-gradient(135deg,#f4f4f4 0 49%,#fff 50%);border-bottom:7px solid #3c3f42;clip-path:polygon(28% 0,100% 0,100% 100%,8% 100%,0 70%)}
@@ -36,16 +36,17 @@ button,input{font:inherit}.hidden{display:none!important}
 .terms{margin-top:28px;border:1.5px solid #333;border-radius:10px;display:grid;grid-template-columns:1fr 1fr;min-height:230px;padding:17px 25px;position:relative}
 .terms:after{content:"";position:absolute;left:50%;top:40px;bottom:25px;border-left:1px solid #777}
 .terms h3{margin:0 0 6px;color:#d71920;font-size:20px}.terms ul{margin:0;padding-right:22px;font-size:15px;line-height:1.8}.terms-left{padding:35px 22px 0 0}.terms-left ul{line-height:2}
-.sign-row{display:grid;grid-template-columns:42% 1fr;gap:35px;align-items:center;margin-top:12px}
-.signature{border:1.5px solid #333;border-radius:8px;padding:3px 12px 10px;text-align:center}.signature b{font-size:17px}.signature canvas{display:block;width:100%;height:85px;border:1px dotted #aaa;background:#fff}
+.sign-row{display:grid;grid-template-columns:42% 1fr;gap:35px;align-items:center;margin:14px 0 10px;position:relative;z-index:2}
+.signature{border:1.5px solid #333;border-radius:8px;padding:3px 12px 10px;text-align:center;background:#fff}.signature b{font-size:17px}.signature canvas{display:block;width:100%;height:85px;border:1px dotted #aaa;background:#fff}
 .sign-note{text-align:center;font-size:14px}.sign-note button{border:0;background:none;color:#c71920;text-decoration:underline;font-weight:800;cursor:pointer}
+.action{text-align:center;margin:16px 0 20px;position:relative;z-index:3}.action button{border:0;background:#252c39;color:white;border-radius:9px;padding:12px 30px;font-weight:900;font-size:17px;cursor:pointer}
 .footer{position:absolute;left:0;right:0;bottom:0;min-height:120px;background:#f1f1f1;border-top:5px solid #3b3e40;display:grid;grid-template-columns:1.15fr 2.6fr .9fr;direction:ltr;padding:15px 50px;align-items:center;gap:20px}
 .social{text-align:left;font:15px Arial;line-height:2.5}.branches{display:grid;grid-template-columns:repeat(3,1fr);direction:rtl}.branch{font-size:13px;line-height:1.45;text-align:center;padding:0 18px;border-left:1px solid #999}.branch b{font-size:17px}
 .logos{display:grid;grid-template-columns:repeat(2,65px);gap:5px;justify-content:end}.logos span{height:50px;border:3px solid #111;display:grid;place-items:center;font:800 11px Arial;clip-path:polygon(20% 0,80% 0,100% 50%,80% 100%,20% 100%,0 50%);background:#fff}
-.action{text-align:center;margin:18px}.action button{border:0;background:#252c39;color:white;border-radius:9px;padding:12px 30px;font-weight:900;font-size:17px}
-.modal{position:fixed;inset:0;background:#0008;display:grid;place-items:center;z-index:50}.modalbox{background:#fff;width:min(650px,92vw);border-radius:12px;padding:22px}.modalbox input,.modalbox textarea{width:100%;margin:7px 0;padding:9px;border:1px solid #bbb;border-radius:7px}
+.modal{position:fixed;inset:0;background:#0008;display:grid;place-items:center;z-index:50}.modalbox{background:#fff;width:min(700px,92vw);max-height:85vh;overflow:auto;border-radius:12px;padding:22px}.modalbox input,.modalbox textarea{width:100%;margin:7px 0;padding:9px;border:1px solid #bbb;border-radius:7px}
+.result{padding:12px 4px;border-bottom:1px solid #ddd}.result button{border:0;background:#252c39;color:#fff;border-radius:6px;padding:6px 14px;margin-top:7px;cursor:pointer}
 @media(max-width:850px){.certificate{min-width:1050px;transform-origin:top right}.wrap{overflow:auto}.toolbar{margin:10px}.brand-ar{right:35px}.fields{column-gap:30px}}
-@media print{body{background:#fff}.toolbar,.action{display:none!important}.wrap{max-width:none;padding:0}.certificate{box-shadow:none;min-height:190mm;height:190mm;width:287mm}.header{height:39mm}.form-area{padding:11mm 12mm 0}.footer{min-height:25mm;padding:2mm 10mm}.terms{min-height:46mm;margin-top:4mm}.sign-row{margin-top:2mm}.signature canvas{height:15mm}@page{size:A4 landscape;margin:5mm}}
+@media print{body{background:#fff}.toolbar,.action,.modal{display:none!important}.wrap{max-width:none;padding:0}.certificate{box-shadow:none;min-height:190mm;height:190mm;width:287mm;padding-bottom:25mm;overflow:hidden}.header{height:39mm}.form-area{padding:11mm 12mm 0}.footer{min-height:25mm;padding:2mm 10mm}.terms{min-height:43mm;margin-top:4mm}.sign-row{margin-top:2mm}.signature canvas{height:14mm}@page{size:A4 landscape;margin:5mm}}
 </style>
 </head>
 <body>
@@ -78,8 +79,7 @@ button,input{font:inherit}.hidden{display:none!important}
     <div class="field"><label>البائع:</label><input id="sellerName" required></div>
     <div class="field"><label>الرقم التسلسلي:</label><input id="serialNo" required placeholder="رقم الشصي / Serial No"></div>
     <div class="field"><label>مدة الضمان:</label><input id="warrantyPeriod" required placeholder="مثال: سنة واحدة"></div>
-    <div class="field"><label>الهاتف:</label><input id="phoneNo" type="tel" required></div>
-    <div></div>
+    <div class="field"><label>الهاتف:</label><input id="phoneNo" type="tel" required></div><div></div>
    </div>
 
    <div class="terms">
@@ -102,6 +102,7 @@ button,input{font:inherit}.hidden{display:none!important}
     <div class="signature"><b>توقيع الزبون</b><canvas id="sigCanvas" width="600" height="120"></canvas></div>
     <div class="sign-note">يعتبر توقيع الزبون موافقته على جميع شروط الضمان المذكورة أعلاه.<br><button type="button" onclick="clearSignature()">مسح التوقيع وإعادة المحاولة</button></div>
    </div>
+   <div class="action"><button type="submit">حفظ الكفالة وطباعتها</button></div>
  </div>
 
  <footer class="footer">
@@ -113,19 +114,18 @@ button,input{font:inherit}.hidden{display:none!important}
    </div>
    <div class="logos"><span>SAMSUNG</span><span>oppo</span><span>mi</span><span>APPLE</span><span>TECNO</span></div>
  </footer>
- <div class="action"><button type="submit">حفظ الكفالة وطباعتها</button></div>
  </form>
 </section>
 </div>
 
 <div id="searchModal" class="modal hidden"><div class="modalbox">
 <h2>بحث عن كفالة سابقة</h2><input id="searchInput" placeholder="الاسم، رقم الشصي، الهاتف أو رقم الكفالة">
-<button class="blue" onclick="searchWarranties()">بحث</button><button class="gray" onclick="closeModal('searchModal')">إغلاق</button>
+<button class="blue" onclick="searchWarranties()">بحث</button> <button class="gray" onclick="closeModal('searchModal')">إغلاق</button>
 <div id="searchResults"></div></div></div>
 
 <div id="settingsModal" class="modal hidden"><div class="modalbox">
 <h2>الإعدادات</h2><textarea id="termsEditText" rows="8" placeholder="كل شرط في سطر"></textarea>
-<button class="blue" onclick="saveSettings()">حفظ التعديلات</button><button class="gray" onclick="closeModal('settingsModal')">إغلاق</button>
+<button class="blue" onclick="saveSettings()">حفظ التعديلات</button> <button class="gray" onclick="closeModal('settingsModal')">إغلاق</button>
 </div></div>
 
 <script type="module">
@@ -144,7 +144,8 @@ const firebaseConfig={
 };
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
 
-const canvas=document.getElementById("sigCanvas"),ctx=canvas.getContext("2d"); let drawing=false;
+const $=id=>document.getElementById(id);
+const canvas=$("sigCanvas"),ctx=canvas.getContext("2d"); let drawing=false;
 function point(e){const r=canvas.getBoundingClientRect(),t=e.touches?.[0]||e;return{x:(t.clientX-r.left)*canvas.width/r.width,y:(t.clientY-r.top)*canvas.height/r.height}}
 function start(e){drawing=true;const p=point(e);ctx.beginPath();ctx.moveTo(p.x,p.y);e.preventDefault()}
 function move(e){if(!drawing)return;const p=point(e);ctx.lineWidth=2.3;ctx.lineCap="round";ctx.lineTo(p.x,p.y);ctx.stroke();e.preventDefault()}
@@ -152,28 +153,65 @@ function end(){drawing=false}
 canvas.addEventListener("mousedown",start);canvas.addEventListener("mousemove",move);window.addEventListener("mouseup",end);
 canvas.addEventListener("touchstart",start,{passive:false});canvas.addEventListener("touchmove",move,{passive:false});canvas.addEventListener("touchend",end);
 window.clearSignature=()=>ctx.clearRect(0,0,canvas.width,canvas.height);
+
 const makeId=()=> "JAB-"+Date.now().toString().slice(-8);
 function monthsFromText(t){const s=(t||"").toLowerCase(),n=parseInt(s.match(/\d+/)?.[0]||0);if(n)return n;if(/سنتين|عامين|two/.test(s))return 24;if(/سنة|سنه|عام|year/.test(s))return 12;if(/شهر|month/.test(s))return 1;return 12}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+function printWarranty(x){
+ const terms=[...$("termsList").querySelectorAll("li")].map(li=>li.textContent);
+ const left=[...$("termsFooter").querySelectorAll("li")].map(li=>li.textContent);
+ const w=window.open("","_blank","width=1200,height=850");
+ if(!w){alert("المتصفح منع نافذة الطباعة. اسمحي بالنوافذ المنبثقة.");return}
+ const sig=x.signature?`<img src="${x.signature}" style="max-width:100%;height:58px;object-fit:contain">`:"";
+ w.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>${esc(x.warrantyId||"Warranty")}</title>
+ <style>
+ @page{size:A4 landscape;margin:6mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;margin:0;color:#111}.p{width:285mm;height:190mm;position:relative;padding:10mm 12mm 27mm;border-top:5mm solid #34383c}.head{display:flex;justify-content:space-between;align-items:start}.en{direction:ltr;text-align:left}.en b{font-size:27px;color:#d71920}.en small{display:block;font-weight:bold;letter-spacing:2px}.ar{font-size:25px;font-weight:bold}.title{text-align:center;margin-top:-10mm}.title h1{margin:0;font-size:27px}.title strong{color:#d71920;font-size:20px}.no{direction:ltr;text-align:left;margin:2mm 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:3mm 15mm;margin-top:2mm}.f{border-bottom:1px solid #333;padding:2mm;font-size:13px}.f b{float:right;margin-left:5mm}.terms{border:1px solid #333;border-radius:3mm;margin-top:5mm;padding:4mm;display:grid;grid-template-columns:1fr 1fr;gap:8mm;font-size:11px;line-height:1.7}.terms h3{color:#d71920;margin:0}.left{border-right:1px solid #777;padding-right:7mm}.sign{margin-top:3mm;display:grid;grid-template-columns:42% 1fr;gap:10mm;align-items:center}.box{border:1px solid #333;border-radius:2mm;text-align:center;padding:1mm;min-height:20mm}.note{text-align:center;font-size:11px}.foot{position:absolute;left:0;right:0;bottom:0;border-top:2mm solid #34383c;background:#eee;display:grid;grid-template-columns:1fr 3fr;padding:3mm 10mm;font-size:9px;direction:ltr}.branches{display:grid;grid-template-columns:repeat(3,1fr);direction:rtl;text-align:center}.social{line-height:2}
+ </style></head><body><div class="p">
+ <div class="head"><div class="en"><b>JABRIEH</b><small>ELECTRONIC CENTER</small></div><div class="ar">جبرية سنتر<br><small>للإلكترونيات</small></div></div>
+ <div class="title"><h1>شهادة ضمان</h1><strong>WARRANTY</strong></div><div class="no">Original No: ${esc(x.warrantyId||"")}</div>
+ <div class="grid">
+ <div class="f"><b>اسم الزبون:</b>${esc(x.customerName)}</div><div class="f"><b>تاريخ الشراء:</b>${esc(x.purchaseDate)}</div>
+ <div class="f"><b>نوع الجهاز:</b>${esc(x.productName)}</div><div class="f"><b>البائع:</b>${esc(x.sellerName)}</div>
+ <div class="f"><b>الرقم التسلسلي:</b>${esc(x.serialNumber)}</div><div class="f"><b>مدة الضمان:</b>${esc(x.warrantyPeriod)}</div>
+ <div class="f"><b>الهاتف:</b>${esc(x.customerPhone)}</div></div>
+ <div class="terms"><div><h3>- الكفالة لا تشمل:</h3><ul>${terms.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div><div class="left"><ul>${left.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div></div>
+ <div class="sign"><div class="box"><b>توقيع الزبون</b><br>${sig}</div><div class="note">يعتبر توقيع الزبون موافقته على جميع شروط الضمان المذكورة أعلاه.</div></div>
+ <div class="foot"><div class="social">JABRIEH CENTER<br>jabrieh_center@hotmail.com</div><div class="branches"><div><b>جبرية سنتر</b><br>المدبسة - بيت لحم<br>02 2765557 | 0569743300</div><div><b>جبرية سنتر 2</b><br>شارع المهد - دوار نيسان<br>02 2765558 | 0569101001</div><div><b>موبايل سنتر</b><br>ساحة المهد - بيت لحم<br>02 2778882 | 0568380515</div></div></div>
+ </div><script>window.onload=()=>setTimeout(()=>window.print(),300)<\/script></body></html>`);
+ w.document.close();
+}
 
 window.saveWarranty=async e=>{
- e.preventDefault(); const id=makeId(); document.getElementById("originalNo").textContent=id.replace("JAB-","");
- const data={warrantyId:id,customerName:custName.value,customerPhone:phoneNo.value,productName:deviceType.value,serialNumber:serialNo.value,sellerName:sellerName.value,purchaseDate:purchaseDate.value,warrantyPeriod:warrantyPeriod.value,warrantyMonths:monthsFromText(warrantyPeriod.value),warrantyStatus:"Active",signature:canvas.toDataURL(),createdAt:serverTimestamp(),createdBy:auth.currentUser?.email||""};
- try{await addDoc(collection(db,"warranties"),data);window.print();alert("تم حفظ الكفالة بنجاح");}
- catch(err){alert("تعذر الحفظ: "+err.message)}
+ e.preventDefault();
+ const id=makeId(); $("originalNo").textContent=id.replace("JAB-","");
+ const data={warrantyId:id,customerName:$("custName").value,customerPhone:$("phoneNo").value,productName:$("deviceType").value,serialNumber:$("serialNo").value,sellerName:$("sellerName").value,purchaseDate:$("purchaseDate").value,warrantyPeriod:$("warrantyPeriod").value,warrantyMonths:monthsFromText($("warrantyPeriod").value),warrantyStatus:"Active",signature:canvas.toDataURL("image/png"),createdAt:serverTimestamp(),createdBy:auth.currentUser?.email||""};
+ try{
+   await addDoc(collection(db,"warranties"),data);
+   printWarranty(data);
+   alert("تم حفظ الكفالة بنجاح");
+ }catch(err){alert("تعذر الحفظ: "+err.message)}
 };
-window.openSearchModal=()=>document.getElementById("searchModal").classList.remove("hidden");
-window.openSettingsModal=()=>{document.getElementById("settingsModal").classList.remove("hidden");termsEditText.value=[...termsList.querySelectorAll("li")].map(x=>x.textContent).join("\n")};
-window.closeModal=id=>document.getElementById(id).classList.add("hidden");
+
+window.openSearchModal=()=>$("searchModal").classList.remove("hidden");
+window.openSettingsModal=()=>{$("settingsModal").classList.remove("hidden");$("termsEditText").value=[...$("termsList").querySelectorAll("li")].map(x=>x.textContent).join("\n")};
+window.closeModal=id=>$(id).classList.add("hidden");
 window.logout=async()=>{await signOut(auth);location.reload()};
 window.toggleLanguage=()=>alert("يمكن إضافة النسخة الإنجليزية بعد تثبيت التصميم العربي.");
+
+let searchCache=[];
 window.searchWarranties=async()=>{
- const q=searchInput.value.trim().toLowerCase(); searchResults.innerHTML="جاري البحث...";
- try{const snap=await getDocs(collection(db,"warranties"));const rows=[];snap.forEach(d=>{const x=d.data();if(!q||[x.warrantyId,x.customerName,x.customerPhone,x.serialNumber].some(v=>String(v||"").toLowerCase().includes(q)))rows.push(x)});
- searchResults.innerHTML=rows.length?rows.map(x=>`<div style="padding:10px;border-bottom:1px solid #ddd"><b>${x.customerName||""}</b> — ${x.productName||""}<br>${x.warrantyId||""} | ${x.serialNumber||""} | ${x.customerPhone||""}</div>`).join(""):"لا توجد نتائج";}
- catch(err){searchResults.textContent="تعذر البحث: "+err.message}
+ const q=$("searchInput").value.trim().toLowerCase(); $("searchResults").innerHTML="جاري البحث...";
+ try{
+   const snap=await getDocs(collection(db,"warranties")); searchCache=[];
+   snap.forEach(d=>{const x=d.data();if(!q||[x.warrantyId,x.customerName,x.customerPhone,x.serialNumber].some(v=>String(v||"").toLowerCase().includes(q)))searchCache.push(x)});
+   $("searchResults").innerHTML=searchCache.length?searchCache.map((x,i)=>`<div class="result"><b>${esc(x.customerName||"")}</b> — ${esc(x.productName||"")}<br>${esc(x.warrantyId||"")} | ${esc(x.serialNumber||"")} | ${esc(x.customerPhone||"")}<br><button type="button" onclick="printSavedWarranty(${i})">🖨 طباعة الكفالة</button></div>`).join(""):"لا توجد نتائج";
+ }catch(err){$("searchResults").textContent="تعذر البحث: "+err.message}
 };
-window.saveSettings=()=>{const a=termsEditText.value.split("\n").map(x=>x.trim()).filter(Boolean);if(a.length){termsList.innerHTML=a.map(x=>`<li>${x.replace(/[<>]/g,"")}</li>`).join("");localStorage.setItem("jabriehTerms",JSON.stringify(a))}closeModal("settingsModal")};
-try{const a=JSON.parse(localStorage.getItem("jabriehTerms")||"null");if(a?.length)termsList.innerHTML=a.map(x=>`<li>${x}</li>`).join("")}catch{}
+window.printSavedWarranty=i=>{const x=searchCache[i];if(x)printWarranty(x)};
+
+window.saveSettings=()=>{const a=$("termsEditText").value.split("\n").map(x=>x.trim()).filter(Boolean);if(a.length){$("termsList").innerHTML=a.map(x=>`<li>${esc(x)}</li>`).join("");localStorage.setItem("jabriehTerms",JSON.stringify(a))}window.closeModal("settingsModal")};
+try{const a=JSON.parse(localStorage.getItem("jabriehTerms")||"null");if(a?.length)$("termsList").innerHTML=a.map(x=>`<li>${esc(x)}</li>`).join("")}catch{}
 </script>
 </body>
 </html>
